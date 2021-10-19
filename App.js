@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, View, FlatList} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 import Cita from './android/components/Cita';
 import Formulario from './android/components/Formulario';
 
 const App = () => {
+  const [mostrarForm, guardarMostrarForm] = useState(false);
+
   //definimos estado de citas
   const [citas, setCitas] = useState([
     {id: '1', paciente: 'Hook', propietario: 'Juan', sintomas: 'No Come'},
@@ -12,36 +20,55 @@ const App = () => {
   ]);
 
   //Eliminar pacientes del state
-const eliminarPaciente = id =>{
-  setCitas((citasActuales)=>{
-    return citasActuales.filter(cita=> cita.id !== id)
-  })
-}
+  const eliminarPaciente = id => {
+    setCitas(citasActuales => {
+      return citasActuales.filter(cita => cita.id !== id);
+    });
+  };
 
+  //Muestra u oculta el formulario
+
+  const mostrarFormulario = () => {
+    guardarMostrarForm(!mostrarForm);
+  };
 
   return (
     <View style={styles.contenedor}>
       <Text style={styles.titulo}>Administrador de Citas</Text>
+      <View>
+        <TouchableHighlight
+          style={styles.btnMostrarForm}
+          onPress={() => mostrarFormulario()}>
+          <Text style={styles.textoMostrarForm}>Crear Nueva Cita</Text>
+        </TouchableHighlight>
+      </View>
 
-      <Formulario />
-      <Text style={styles.titulo}>{citas.length >0 ? 'Administra tus Citas' : 'Agrega Citas'}</Text>
+      <View style={styles.contenido}>
+        {mostrarForm ? (
+          <>
+            <Text style={styles.titulo}>
+              Crear Nueva Cita
+            </Text>
 
-      {/* {citas.map(cita=>(
-  <View>
-    <Text>{cita.paciente}</Text>
-  </View>
-))} */}
+            <Formulario />
+          </>
+        ) : (
+          <>
+            <Text style={styles.titulo}>
+              {citas.length > 0 ? 'Administra tus Citas' : 'Agrega Citas'}
+            </Text>
 
-
-
-      <FlatList
-        data={citas}
-        renderItem={({item}) => (
-          <Cita item={item} eliminarPaciente={eliminarPaciente} />
-
+            <FlatList
+              style={styles.listado}
+              data={citas}
+              renderItem={({item}) => (
+                <Cita item={item} eliminarPaciente={eliminarPaciente} />
+              )}
+              keyExtractor={cita => cita.id}
+            />
+          </>
         )}
-        keyExtractor={cita=>cita.id}
-      />
+      </View>
     </View>
   );
 };
@@ -53,9 +80,26 @@ const styles = StyleSheet.create({
   },
   titulo: {
     color: 'white',
-    marginTop: 40,
-    marginBottom:20,
+    marginTop: 20,
+    marginBottom: 20,
     fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  contenido: {
+    flex: 1,
+    marginHorizontal: '2.5%',
+  },
+  listado: {
+    flex: 1,
+  },
+  btnMostrarForm: {
+    padding: 10,
+    backgroundColor: '#AA076B',
+    marginVertical: 10,
+  },
+  textoMostrarForm: {
+    color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
   },

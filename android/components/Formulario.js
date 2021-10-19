@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TextInput, View, Button, TouchableHighlight, Alert, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  TouchableHighlight,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function Formulario() {
-
-
-const [paciente, guardarPaciente] = useState("")
-const [propietario, guardarPropietario] = useState("")
-const [telefono, guardarTelefono] = useState("")
-const [fecha, guardarFecha] = useState("")
-const [hora, guardarHora] = useState("")
-const [sintomas, guardarSintomas] = useState("")
-
+  const [paciente, guardarPaciente] = useState('');
+  const [propietario, guardarPropietario] = useState('');
+  const [telefono, guardarTelefono] = useState('');
+  const [fecha, guardarFecha] = useState('');
+  const [hora, guardarHora] = useState('');
+  const [sintomas, guardarSintomas] = useState('');
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -25,8 +31,8 @@ const [sintomas, guardarSintomas] = useState("")
   };
 
   const confirmarFecha = date => {
-    const opciones= {year: 'numeric', month: 'long', day: '2-digit'}
-    guardarFecha(date.toLocaleDateString('es-Es', opciones))
+    const opciones = {year: 'numeric', month: 'long', day: '2-digit'};
+    guardarFecha(date.toLocaleDateString('es-Es', opciones));
 
     // console.warn('A date has been picked: ', date);
     hideDatePicker();
@@ -43,48 +49,44 @@ const [sintomas, guardarSintomas] = useState("")
   };
 
   const confirmarHora = hora => {
-    const opciones= {hour: 'numeric', minute: '2-digit'}
-    guardarHora(hora.toLocaleString('en-Us', opciones))
+    const opciones = {hour: 'numeric', minute: '2-digit'};
+    guardarHora(hora.toLocaleString('en-Us', opciones));
     hideTimePicker();
   };
 
-
-
-
   //Crear nueva cita
 
-  const crearNuevaCita =()=> {
-   //validaciones
-   if(paciente.trim() ==='' || 
-   propietario.trim() ==='' || 
-   telefono.trim() ==='' || 
-   fecha.trim() ==='' || 
-   hora.trim() ==='' || 
-   sintomas.trim() ==='' 
-   ) {
-    mostrarAlerta();
-   }
-
-  }
-
+  const crearNuevaCita = () => {
+    //validaciones
+    if (
+      paciente.trim() === '' ||
+      propietario.trim() === '' ||
+      telefono.trim() === '' ||
+      fecha.trim() === '' ||
+      hora.trim() === '' ||
+      sintomas.trim() === ''
+    ) {
+      mostrarAlerta();
+    }
+  };
 
   //muestra alerta si la validacion falla
 
-  const mostrarAlerta = ()=>{
-
+  const mostrarAlerta = () => {
     Alert.alert(
       'Error', // Titulo
       'Todos los campos son obligatorios', // Mensaje
-      [{
-        text: 'OK' // Arreglo de botones
-      }]
-    )
-  }
+      [
+        {
+          text: 'OK', // Arreglo de botones
+        },
+      ],
+    );
+  };
 
   return (
     <>
-    <ScrollView style={styles.containerform}>
-    <View style={styles.formulario}>
+      <ScrollView style={styles.formulario}>
         <View>
           <Text style={styles.label}>Paciente</Text>
           <TextInput
@@ -118,27 +120,22 @@ const [sintomas, guardarSintomas] = useState("")
             mode="date"
             onConfirm={confirmarFecha}
             onCancel={hideDatePicker}
-            locale='es_Es'
+            locale="es_Es"
           />
-            <Text>
-            {fecha}
-          </Text>
+          <Text>{fecha}</Text>
         </View>
 
-        <View>    
-           <Text style={styles.label}>Hora: </Text>
+        <View>
+          <Text style={styles.label}>Hora: </Text>
           <Button title="Seleccionar Hora" onPress={showTimePicker} />
           <DateTimePickerModal
             isVisible={isTimePickerVisible}
             mode="time"
             onConfirm={confirmarHora}
             onCancel={hideTimePicker}
-            locale='es_Es'
-
+            locale="es_Es"
           />
-          <Text>
-            {hora}
-          </Text>
+          <Text>{hora}</Text>
         </View>
 
         <View>
@@ -151,22 +148,18 @@ const [sintomas, guardarSintomas] = useState("")
         </View>
 
         <TouchableHighlight
-        style={styles. btnSubmit}
-        onPress={() =>crearNuevaCita()}>
-        <Text style={styles.textoSubmit}>Crear Nueva Cita</Text>
-      </TouchableHighlight>
-
-      </View>
-
-    </ScrollView>
-     
+          style={styles.btnSubmit}
+          onPress={() => crearNuevaCita()}>
+          <Text style={styles.textoSubmit}>Crear Nueva Cita</Text>
+        </TouchableHighlight>
+      </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  containerform:{
-    height:4700
+  containerform: {
+    height: 4700,
   },
   formulario: {
     backgroundColor: '#fff',
