@@ -13,11 +13,7 @@ const App = () => {
   const [mostrarForm, guardarMostrarForm] = useState(false);
 
   //definimos estado de citas
-  const [citas, setCitas] = useState([
-    {id: '1', paciente: 'Hook', propietario: 'Juan', sintomas: 'No Come'},
-    {id: '2', paciente: 'Redux', propietario: 'Itzel', sintomas: 'No Duerme'},
-    {id: '3', paciente: 'Native', propietario: 'Josue', sintomas: 'No Canta'},
-  ]);
+  const [citas, setCitas] = useState([]);
 
   //Eliminar pacientes del state
   const eliminarPaciente = id => {
@@ -39,7 +35,7 @@ const App = () => {
         <TouchableHighlight
           style={styles.btnMostrarForm}
           onPress={() => mostrarFormulario()}>
-          <Text style={styles.textoMostrarForm}>Crear Nueva Cita</Text>
+          <Text style={styles.textoMostrarForm}>{mostrarForm? "Cancelar" : "Crear Nueva Cita"}</Text>
         </TouchableHighlight>
       </View>
 
@@ -50,12 +46,16 @@ const App = () => {
               Crear Nueva Cita
             </Text>
 
-            <Formulario />
+            <Formulario 
+            citas={citas} 
+            setCitas={setCitas}
+            guardarMostrarForm={guardarMostrarForm}
+            />
           </>
         ) : (
           <>
             <Text style={styles.titulo}>
-              {citas.length > 0 ? 'Administra tus Citas' : 'Agrega Citas'}
+              {citas.length > 0 ? 'Administra tus Citas' : 'No tienes Citas. Agrega Una'}
             </Text>
 
             <FlatList

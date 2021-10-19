@@ -8,10 +8,12 @@ import {
   TouchableHighlight,
   Alert,
   ScrollView,
+  SegmentedControlIOSBase,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import shortid from 'shortid';
 
-export default function Formulario() {
+export default function Formulario({citas, setCitas, guardarMostrarForm}) {
   const [paciente, guardarPaciente] = useState('');
   const [propietario, guardarPropietario] = useState('');
   const [telefono, guardarTelefono] = useState('');
@@ -67,10 +69,27 @@ export default function Formulario() {
       sintomas.trim() === ''
     ) {
       mostrarAlerta();
+      return;
     }
+
+    //Crear Nueva Cita
+
+    const cita = {paciente, propietario, telefono, fecha, hora, sintomas};
+
+    cita.id = shortid.generate();
+    // console.log(cita);
+
+    //Agregar al state
+    const citasActualizadas = [...citas, cita];
+    setCitas(citasActualizadas)
+
+    //Ocultar el Formulario
+    guardarMostrarForm()
+    
+    //Resetear el Formulario
   };
 
-  //muestra alerta si la validacion falla
+  //Muestra alerta si la validacion falla
 
   const mostrarAlerta = () => {
     Alert.alert(

@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Button, TouchableHighlight} from 'react-native';
 
 export default function Cita({item, eliminarPaciente}) {
   const dialogoEliminar = id => {
-    console.log(`eliminando el id ${id}`);
+    // console.log(`eliminando el id ${id}`);
     eliminarPaciente(id)
     // return;
   };
